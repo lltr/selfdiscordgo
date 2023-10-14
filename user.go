@@ -86,6 +86,21 @@ type User struct {
 	// The flags on a user's account.
 	// Only available when the request is authorized via a Bearer token.
 	Flags int `json:"flags"`
+
+	// Whether NSFW is allowed.
+	NSFWAllowed bool `json:"nsfw_allowed"`
+
+	// Whether the user is on mobile.
+	Mobile bool `json:"mobile"`
+
+	// Whether the user is on desktop.
+	Desktop bool `json:"desktop"`
+
+	// User's Bio.
+	Bio string `json:"bio"`
+
+	// Banner color, probably decimal representation.
+	BannerColor *string `json:"banner_color"`
 }
 
 // String returns a unique identifier of the form username#discriminator
