@@ -69,26 +69,6 @@ const (
 	webhooksUpdateEventType                      = "WEBHOOKS_UPDATE"
 )
 
-// applicationCommandPermissionsUpdateEventHandler is an event handler for ApplicationCommandPermissionsUpdate events.
-type applicationCommandPermissionsUpdateEventHandler func(*Session, *ApplicationCommandPermissionsUpdate)
-
-// Type returns the event type for ApplicationCommandPermissionsUpdate events.
-func (eh applicationCommandPermissionsUpdateEventHandler) Type() string {
-	return applicationCommandPermissionsUpdateEventType
-}
-
-// New returns a new instance of ApplicationCommandPermissionsUpdate.
-func (eh applicationCommandPermissionsUpdateEventHandler) New() interface{} {
-	return &ApplicationCommandPermissionsUpdate{}
-}
-
-// Handle is the handler for ApplicationCommandPermissionsUpdate events.
-func (eh applicationCommandPermissionsUpdateEventHandler) Handle(s *Session, i interface{}) {
-	if t, ok := i.(*ApplicationCommandPermissionsUpdate); ok {
-		eh(s, t)
-	}
-}
-
 // autoModerationActionExecutionEventHandler is an event handler for AutoModerationActionExecution events.
 type autoModerationActionExecutionEventHandler func(*Session, *AutoModerationActionExecution)
 
@@ -1253,8 +1233,6 @@ func handlerForInterface(handler interface{}) EventHandler {
 	switch v := handler.(type) {
 	case func(*Session, interface{}):
 		return interfaceEventHandler(v)
-	case func(*Session, *ApplicationCommandPermissionsUpdate):
-		return applicationCommandPermissionsUpdateEventHandler(v)
 	case func(*Session, *AutoModerationActionExecution):
 		return autoModerationActionExecutionEventHandler(v)
 	case func(*Session, *AutoModerationRuleCreate):
@@ -1379,7 +1357,6 @@ func handlerForInterface(handler interface{}) EventHandler {
 }
 
 func init() {
-	registerInterfaceProvider(applicationCommandPermissionsUpdateEventHandler(nil))
 	registerInterfaceProvider(autoModerationActionExecutionEventHandler(nil))
 	registerInterfaceProvider(autoModerationRuleCreateEventHandler(nil))
 	registerInterfaceProvider(autoModerationRuleDeleteEventHandler(nil))
