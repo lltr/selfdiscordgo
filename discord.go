@@ -10,8 +10,8 @@
 // experimental at this point.  They will most likely change so please use the
 // low level functions if that's a problem.
 
-// Package discordgo provides Discord binding for Go
-package discordgo
+// package selfdiscordgo provides Discord binding for Go
+package selfdiscordgo
 
 import (
 	"net/http"
@@ -26,9 +26,12 @@ const VERSION = "0.27.1"
 
 // New creates a new Discord session with provided token.
 // If the token is for a bot, it must be prefixed with "Bot "
-// 		e.g. "Bot ..."
+//
+//	e.g. "Bot ..."
+//
 // Or if it is an OAuth2 token, it must be prefixed with "Bearer "
-//		e.g. "Bearer ..."
+//
+//	e.g. "Bearer ..."
 func New(token string) (s *Session, err error) {
 
 	// Create an empty Session interface.

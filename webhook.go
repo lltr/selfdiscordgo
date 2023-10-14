@@ -1,4 +1,4 @@
-package discordgo
+package selfdiscordgo
 
 // Webhook stores the data for a webhook.
 type Webhook struct {

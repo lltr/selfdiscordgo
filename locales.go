@@ -1,4 +1,4 @@
-package discordgo
+package selfdiscordgo
 
 // Locale represents the accepted languages for Discord.
 // https://discord.com/developers/docs/reference#locales

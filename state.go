@@ -10,7 +10,7 @@
 // events and maintain an in-memory state of guilds, channels, users, and
 // so forth.  This information can be accessed through the Session.State struct.
 
-package discordgo
+package selfdiscordgo
 
 import (
 	"errors"
@@ -175,8 +175,9 @@ func (s *State) GuildRemove(guild *Guild) error {
 
 // Guild gets a guild by ID.
 // Useful for querying if @me is in a guild:
-//     _, err := discordgo.Session.State.Guild(guildID)
-//     isInGuild := err == nil
+//
+//	_, err := discordgo.Session.State.Guild(guildID)
+//	isInGuild := err == nil
 func (s *State) Guild(guildID string) (*Guild, error) {
 	if s == nil {
 		return nil, ErrNilState
