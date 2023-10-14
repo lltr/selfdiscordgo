@@ -1,28 +1,8 @@
-# DiscordGo
+# DiscordGo selfbot fork
 
-[![Go Reference](https://pkg.go.dev/badge/github.com/bwmarrin/discordgo.svg)](https://pkg.go.dev/github.com/bwmarrin/discordgo) [![Go Report Card](https://goreportcard.com/badge/github.com/bwmarrin/discordgo)](https://goreportcard.com/report/github.com/bwmarrin/discordgo) [![CI](https://github.com/bwmarrin/discordgo/actions/workflows/ci.yml/badge.svg)](https://github.com/bwmarrin/discordgo/actions/workflows/ci.yml) [![Discord Gophers](https://img.shields.io/badge/Discord%20Gophers-%23discordgo-blue.svg)](https://discord.gg/golang) [![Discord API](https://img.shields.io/badge/Discord%20API-%23go_discordgo-blue.svg)](https://discord.com/invite/discord-api)
+[![Go Reference](https://pkg.go.dev/badge/github.com/lltr/selfdiscordgo.svg)](https://pkg.go.dev/github.com/bwmarrin/discordgo) [![Go Report Card](https://goreportcard.com/badge/github.com/lltr/selfdiscordgo)](https://goreportcard.com/report/github.com/bwmarrin/discordgo)
 
-<img align="right" alt="DiscordGo logo" src="docs/img/discordgo.svg" width="400">
-
-DiscordGo is a [Go](https://golang.org/) package that provides low level 
-bindings to the [Discord](https://discord.com/) chat client API. DiscordGo 
-has nearly complete support for all of the Discord API endpoints, websocket
-interface, and voice interface.
-
-If you would like to help the DiscordGo package please use 
-[this link](https://discord.com/oauth2/authorize?client_id=173113690092994561&scope=bot)
-to add the official DiscordGo test bot **dgo** to your server. This provides 
-indispensable help to this project.
-
-* See [dgVoice](https://github.com/bwmarrin/dgvoice) package for an example of
-additional voice helper functions and features for DiscordGo.
-
-* See [dca](https://github.com/bwmarrin/dca) for an **experimental** stand alone
-tool that wraps `ffmpeg` to create opus encoded audio appropriate for use with
-Discord (and DiscordGo).
-
-**For help with this package or general Go discussion, please join the [Discord 
-Gophers](https://discord.gg/golang) chat server.**
+This fork aims to provide Discord client capabilities for use by selfbots. Currently receving messages works properly.
 
 ## Getting Started
 
@@ -34,7 +14,7 @@ This assumes you already have a working Go environment, if not please see
 `go get` *will always pull the latest tagged release from the master branch.*
 
 ```sh
-go get github.com/bwmarrin/discordgo
+go get github.com/lltr/selfdiscordgo
 ```
 
 ### Usage
@@ -42,14 +22,14 @@ go get github.com/bwmarrin/discordgo
 Import the package into your project.
 
 ```go
-import "github.com/bwmarrin/discordgo"
+import "github.com/lltr/selfdiscordgo"
 ```
 
 Construct a new Discord client which can be used to access the variety of 
 Discord API functions and to set callback functions for Discord events.
 
 ```go
-discord, err := discordgo.New("Bot " + "authentication token")
+discord, err := discordgo.New("User authentication token")
 ```
 
 See Documentation and Examples below for more detailed information.
@@ -91,13 +71,3 @@ discussed.
 so please avoid adding enhancements outside of that scope without first 
 discussing it.
 - Create a Pull Request with your changes against the master branch.
-
-
-## List of Discord APIs
-
-See [this chart](https://abal.moe/Discord/Libraries.html) for a feature 
-comparison and list of other Discord API libraries.
-
-## Special Thanks
-
-[Chris Rhodes](https://github.com/iopred) - For the DiscordGo logo and tons of PRs.
