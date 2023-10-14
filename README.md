@@ -1,6 +1,6 @@
 # DiscordGo selfbot fork
 
-[![Go Reference](https://pkg.go.dev/badge/github.com/lltr/selfdiscordgo.svg)](https://pkg.go.dev/github.com/bwmarrin/discordgo) [![Go Report Card](https://goreportcard.com/badge/github.com/lltr/selfdiscordgo)](https://goreportcard.com/report/github.com/bwmarrin/discordgo)
+[![Go Reference](https://pkg.go.dev/badge/github.com/lltr/selfdiscordgo.svg)](https://pkg.go.dev/github.com/lltr/selfdiscordgo) [![Go Report Card](https://goreportcard.com/badge/github.com/lltr/selfdiscordgo)](https://goreportcard.com/report/github.com/lltr/selfdiscordgo)
 
 This fork aims to provide Discord client capabilities for use by selfbots. Currently receving messages works properly.
 
@@ -43,14 +43,13 @@ Because of that there may be major changes to library in the future.
 The DiscordGo code is fairly well documented at this point and is currently
 the only documentation available. Go reference (below) presents that information in a nice format.
 
-- [![Go Reference](https://pkg.go.dev/badge/github.com/bwmarrin/discordgo.svg)](https://pkg.go.dev/github.com/bwmarrin/discordgo) 
+- [![Go Reference](https://pkg.go.dev/badge/github.com/bwmarrin/discordgo.svg)](https://pkg.go.dev/github.com/lltr/selfdiscordgo) 
 - Hand crafted documentation coming eventually.
 
 
 ## Examples
 
-Below is a list of examples and other projects using DiscordGo.  Please submit 
-an issue if you would like your project added or removed from this list. 
+Below is a list of examples and other projects using DiscordGo. No examples for this selfbot fork.
 
 - [DiscordGo Examples](https://github.com/bwmarrin/discordgo/tree/master/examples) - A collection of example programs written with DiscordGo
 - [Awesome DiscordGo](https://github.com/bwmarrin/discordgo/wiki/Awesome-DiscordGo) - A curated list of high quality projects using DiscordGo
