@@ -343,16 +343,6 @@ type WebhooksUpdate struct {
 	ChannelID string `json:"channel_id"`
 }
 
-// InteractionCreate is the data for a InteractionCreate event
-type InteractionCreate struct {
-	*Interaction
-}
-
-// UnmarshalJSON is a helper function to unmarshal Interaction object.
-func (i *InteractionCreate) UnmarshalJSON(b []byte) error {
-	return json.Unmarshal(b, &i.Interaction)
-}
-
 // InviteCreate is the data for a InviteCreate event
 type InviteCreate struct {
 	*Invite
@@ -365,11 +355,6 @@ type InviteDelete struct {
 	ChannelID string `json:"channel_id"`
 	GuildID   string `json:"guild_id"`
 	Code      string `json:"code"`
-}
-
-// ApplicationCommandPermissionsUpdate is the data for an ApplicationCommandPermissionsUpdate event
-type ApplicationCommandPermissionsUpdate struct {
-	*GuildApplicationCommandPermissions
 }
 
 // AutoModerationRuleCreate is the data for an AutoModerationRuleCreate event.

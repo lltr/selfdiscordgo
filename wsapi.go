@@ -17,6 +17,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"math/rand"
 	"net/http"
 	"sync/atomic"
 	"time"
@@ -31,10 +32,6 @@ var ErrWSAlreadyOpen = errors.New("web socket already opened")
 // ErrWSNotFound is thrown when you attempt to use a websocket
 // that doesn't exist
 var ErrWSNotFound = errors.New("no websocket connection exists")
-
-// ErrWSShardBounds is thrown when you try to use a shard ID that is
-// more than the total shard count
-var ErrWSShardBounds = errors.New("ShardID must be less than ShardCount")
 
 type resumePacket struct {
 	Op   int `json:"op"`
@@ -138,7 +135,7 @@ func (s *Session) Open() error {
 		// Send Op 6 Resume Packet
 		p := resumePacket{}
 		p.Op = 6
-		p.Data.Token = s.Token
+		p.Data.Token = s.Identify.Token
 		p.Data.SessionID = s.sessionID
 		p.Data.Sequence = sequence
 
@@ -275,7 +272,7 @@ func (s *Session) HeartbeatLatency() time.Duration {
 // heartbeat sends regular heartbeats to Discord so it knows the client
 // is still connected.  If you do not send these heartbeats Discord will
 // disconnect the websocket connection after a few seconds.
-func (s *Session) heartbeat(wsConn *websocket.Conn, listening <-chan interface{}, heartbeatIntervalMsec time.Duration) {
+func (s *Session) heartbeat(wsConn *websocket.Conn, listening <-chan interface{}, heartbeatInterval time.Duration) {
 
 	s.log(LogInformational, "called")
 
@@ -283,8 +280,11 @@ func (s *Session) heartbeat(wsConn *websocket.Conn, listening <-chan interface{}
 		return
 	}
 
+	//wait random ms then send the first heartbeat
+	time.Sleep(time.Duration(rand.Float32()) * heartbeatInterval * time.Millisecond)
+
 	var err error
-	ticker := time.NewTicker(heartbeatIntervalMsec * time.Millisecond)
+	ticker := time.NewTicker(heartbeatInterval * time.Millisecond)
 	defer ticker.Stop()
 
 	for {
@@ -297,7 +297,7 @@ func (s *Session) heartbeat(wsConn *websocket.Conn, listening <-chan interface{}
 		s.LastHeartbeatSent = time.Now().UTC()
 		err = wsConn.WriteJSON(heartbeatOp{1, sequence})
 		s.wsMutex.Unlock()
-		if err != nil || time.Now().UTC().Sub(last) > (heartbeatIntervalMsec*FailedHeartbeatAcks) {
+		if err != nil || time.Now().UTC().Sub(last) > (heartbeatInterval*FailedHeartbeatAcks) {
 			if err != nil {
 				s.log(LogError, "error sending heartbeat to gateway %s, %s", s.gateway, err)
 			} else {
@@ -691,7 +691,7 @@ func (s *Session) ChannelVoiceJoin(gID, cID string, mute, deaf bool) (voice *Voi
 	s.log(LogInformational, "called")
 
 	s.RLock()
-	voice, _ = s.VoiceConnections[gID]
+	voice = s.VoiceConnections[gID]
 	s.RUnlock()
 
 	if voice == nil {
@@ -828,26 +828,8 @@ func (s *Session) identify() error {
 
 	// TODO: This is a temporary block of code to help
 	// maintain backwards compatibility
-	if s.Compress == false {
+	if s.Identify.Compress == false {
 		s.Identify.Compress = false
-	}
-
-	// TODO: This is a temporary block of code to help
-	// maintain backwards compatibility
-	if s.Token != "" && s.Identify.Token == "" {
-		s.Identify.Token = s.Token
-	}
-
-	// TODO: Below block should be refactored so ShardID and ShardCount
-	// can be deprecated and their usage moved to the Session.Identify
-	// struct
-	if s.ShardCount > 1 {
-
-		if s.ShardID >= s.ShardCount {
-			return ErrWSShardBounds
-		}
-
-		s.Identify.Shard = &[2]int{s.ShardID, s.ShardCount}
 	}
 
 	// Send Identify packet to Discord

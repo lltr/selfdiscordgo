@@ -52,14 +52,6 @@ type Session struct {
 	// https://discord.com/developers/docs/topics/gateway#identify
 	Identify Identify
 
-	// TODO: Remove Below, Deprecated, Use Identify struct
-	// Should the session request compressed websocket data.
-	Compress bool
-
-	// Sharding
-	ShardID    int
-	ShardCount int
-
 	// Should state tracking be enabled.
 	// State tracking is the best way for getting the users
 	// active guilds and the members of the guilds.
@@ -1929,13 +1921,6 @@ type MessageReaction struct {
 	GuildID   string `json:"guild_id,omitempty"`
 }
 
-// GatewayBotResponse stores the data for the gateway/bot response
-type GatewayBotResponse struct {
-	URL               string             `json:"url"`
-	Shards            int                `json:"shards"`
-	SessionStartLimit SessionInformation `json:"session_start_limit"`
-}
-
 // SessionInformation provides the information for max concurrency sharding
 type SessionInformation struct {
 	Total          int `json:"total,omitempty"`
@@ -2041,25 +2026,52 @@ const (
 )
 
 // Identify is sent during initial handshake with the discord gateway.
-// https://discord.com/developers/docs/topics/gateway#identify
+// Reversed from the Discord client websocket.
 type Identify struct {
-	Token          string              `json:"token"`
-	Properties     IdentifyProperties  `json:"properties"`
-	Compress       bool                `json:"compress"`
-	LargeThreshold int                 `json:"large_threshold"`
-	Shard          *[2]int             `json:"shard,omitempty"`
-	Presence       GatewayStatusUpdate `json:"presence,omitempty"`
-	Intents        Intent              `json:"intents"`
+	Token        string              `json:"token"`
+	Properties   IdentifyProperties  `json:"properties"`
+	Presence     IdentifyPresence    `json:"presence"`
+	Compress     bool                `json:"compress"`
+	ClientState  IdentifyClientState `json:"client_state"`
+	Capabilities int                 `json:"capabilities"`
 }
 
 // IdentifyProperties contains the "properties" portion of an Identify packet
-// https://discord.com/developers/docs/topics/gateway#identify-identify-connection-properties
+// Reversed from the Discord client websocket.
 type IdentifyProperties struct {
-	OS              string `json:"$os"`
-	Browser         string `json:"$browser"`
-	Device          string `json:"$device"`
-	Referer         string `json:"$referer"`
-	ReferringDomain string `json:"$referring_domain"`
+	OS                     string `json:"os"`
+	Browser                string `json:"browser"`
+	Device                 string `json:"device"`
+	SystemLocale           string `json:"system_locale"`
+	BrowserUserAgent       string `json:"browser_user_agent"`
+	BrowserVersion         string `json:"browser_version"`
+	OSVersion              string `json:"os_version"`
+	Referrer               string `json:"referrer"`
+	ReferringDomain        string `json:"referring_domain"`
+	ReferrerCurrent        string `json:"referrer_current"`
+	ReferringDomainCurrent string `json:"referring_domain_current"`
+	ReleaseChannel         string `json:"release_channel"`
+	ClientBuildNumber      int    `json:"client_build_number"`
+	// Pointer so that json will print null if empty
+	ClientEventSource *string `json:"client_event_source"`
+}
+
+// IdentifyPresence contains the "presence" portion of an Identify packet
+// Reversed from the Discord client websocket.
+type IdentifyPresence struct {
+	Status     string   `json:"status"`
+	Since      int      `json:"since"`
+	Activities []string `json:"activities"`
+	AFK        bool     `json:"afk"`
+}
+
+// IdentifyClientState contains the "client_state" portion of an Identify packet
+// Reversed from the Discord client websocket.
+type IdentifyClientState struct {
+	GuildHashes              struct{} `json:"guild_hashes"`
+	HighestLastMessageID     string   `json:"highest_last_message_id"`
+	ReadStateVersion         int      `json:"read_state_version"`
+	UserGuildSettingsVersion int      `json:"user_guild_settings_version"`
 }
 
 // StageInstance holds information about a live stage.

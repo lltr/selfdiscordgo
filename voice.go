@@ -920,7 +920,7 @@ func (v *VoiceConnection) reconnect() {
 			wait = 600
 		}
 
-		if v.session.DataReady == false || v.session.wsConn == nil {
+		if v.session.DataReady || v.session.wsConn == nil {
 			v.log(LogInformational, "cannot reconnect to channel %s with unready session", v.ChannelID)
 			continue
 		}

@@ -29,7 +29,6 @@ var (
 	EndpointChannels       = EndpointAPI + "channels/"
 	EndpointUsers          = EndpointAPI + "users/"
 	EndpointGateway        = EndpointAPI + "gateway"
-	EndpointGatewayBot     = EndpointGateway + "/bot"
 	EndpointWebhooks       = EndpointAPI + "webhooks/"
 	EndpointStickers       = EndpointAPI + "stickers/"
 	EndpointStageInstances = EndpointAPI + "stage-instances"

@@ -39,7 +39,6 @@ const (
 	guildScheduledEventUserAddEventType          = "GUILD_SCHEDULED_EVENT_USER_ADD"
 	guildScheduledEventUserRemoveEventType       = "GUILD_SCHEDULED_EVENT_USER_REMOVE"
 	guildUpdateEventType                         = "GUILD_UPDATE"
-	interactionCreateEventType                   = "INTERACTION_CREATE"
 	inviteCreateEventType                        = "INVITE_CREATE"
 	inviteDeleteEventType                        = "INVITE_DELETE"
 	messageCreateEventType                       = "MESSAGE_CREATE"
@@ -695,26 +694,6 @@ func (eh guildUpdateEventHandler) Handle(s *Session, i interface{}) {
 	}
 }
 
-// interactionCreateEventHandler is an event handler for InteractionCreate events.
-type interactionCreateEventHandler func(*Session, *InteractionCreate)
-
-// Type returns the event type for InteractionCreate events.
-func (eh interactionCreateEventHandler) Type() string {
-	return interactionCreateEventType
-}
-
-// New returns a new instance of InteractionCreate.
-func (eh interactionCreateEventHandler) New() interface{} {
-	return &InteractionCreate{}
-}
-
-// Handle is the handler for InteractionCreate events.
-func (eh interactionCreateEventHandler) Handle(s *Session, i interface{}) {
-	if t, ok := i.(*InteractionCreate); ok {
-		eh(s, t)
-	}
-}
-
 // inviteCreateEventHandler is an event handler for InviteCreate events.
 type inviteCreateEventHandler func(*Session, *InviteCreate)
 
@@ -1338,8 +1317,6 @@ func handlerForInterface(handler interface{}) EventHandler {
 		return guildScheduledEventUserRemoveEventHandler(v)
 	case func(*Session, *GuildUpdate):
 		return guildUpdateEventHandler(v)
-	case func(*Session, *InteractionCreate):
-		return interactionCreateEventHandler(v)
 	case func(*Session, *InviteCreate):
 		return inviteCreateEventHandler(v)
 	case func(*Session, *InviteDelete):
@@ -1431,7 +1408,6 @@ func init() {
 	registerInterfaceProvider(guildScheduledEventUserAddEventHandler(nil))
 	registerInterfaceProvider(guildScheduledEventUserRemoveEventHandler(nil))
 	registerInterfaceProvider(guildUpdateEventHandler(nil))
-	registerInterfaceProvider(interactionCreateEventHandler(nil))
 	registerInterfaceProvider(inviteCreateEventHandler(nil))
 	registerInterfaceProvider(inviteDeleteEventHandler(nil))
 	registerInterfaceProvider(messageCreateEventHandler(nil))
